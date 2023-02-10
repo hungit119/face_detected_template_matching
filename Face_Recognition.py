@@ -19,7 +19,7 @@ algo_type = "pca"
 #for single image = 0
 #for video = 1
 #for group image = 2
-reco_type = 0
+reco_type = 2
 
 #No of images For Training(Left will be used as testing Image)
 no_of_images_of_one_person = 8
@@ -48,13 +48,6 @@ else:
 
 scaled_face = i_t_m_c.get_matrix()
 
-if algo_type == "pca":
-    cv2.imshow("Original Image" , cv2.resize(np.array(np.reshape(scaled_face[:,1],[img_height, img_width]), dtype = np.uint8),(200, 200)))
-    cv2.waitKey()
-else:
-    cv2.imshow("Original Image" , cv2.resize(scaled_face[0],(200, 200)))
-    cv2.waitKey()
-
 #Algo
 if algo_type == "pca":
     my_algo = pca_class(scaled_face, y, target_names, no_of_elements, 90)
@@ -67,15 +60,6 @@ else:
 new_coordinates = my_algo.reduce_dim()
 if algo_type == "pca":
     my_algo.show_eigen_face(img_width, img_height, 50, 150, 0)
-
-if algo_type == "pca":
-    cv2.imshow("After PCA Image", cv2.resize(np.array(np.reshape(my_algo.original_data(new_coordinates[1, :]), [img_height, img_width]), dtype = np.uint8), (200, 200)))
-    cv2.waitKey()
-else:
-    cv2.imshow("After PCA Image", cv2.resize(np.array(my_algo.original_data(new_coordinates[0]), dtype = np.uint8), (200, 200)))
-    cv2.waitKey()
-
-
 training_time = time.process_time() - training_start_time
 
 
@@ -118,6 +102,7 @@ if reco_type == 0:
 
 #For Video
 
+
 if reco_type == 1:
     face_cascade = cv2.CascadeClassifier('cascades/data/haarcascade_frontalface_alt2.xml')
 
@@ -146,9 +131,6 @@ if reco_type == 1:
             font_stroke = 2
             cv2.putText(frame, name + str(i), (x, y), font, 1, font_color, font_stroke, cv2.LINE_AA)
             i += 1
-
-
-
         cv2.imshow('Colored Frame', frame)
         if cv2.waitKey(20) & 0xFF == ord('q'):
             break
@@ -165,7 +147,7 @@ if reco_type == 2:
     dir = r'images/Group/'
 
 
-    frame = cv2.imread(dir+ "group_image.jpg")
+    frame = cv2.imread(dir+ "WIN_20221216_08_45_21_Pro.jpg")
 
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)

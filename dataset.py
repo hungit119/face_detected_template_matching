@@ -29,7 +29,6 @@ class dataset_class:
                     for img_name in os.listdir(dir_path):
                         img_path = os.path.join(dir_path, img_name)
 
-
                         if i < required_no:
                             self.images_name_for_train += [img_path]
                             self.y_for_train += [per_no]
@@ -49,9 +48,6 @@ class dataset_class:
                                 self.no_of_elements_for_test[per_no] += 1
                             else:
                                 self.no_of_elements_for_test += [1]
-
-
-
                         i += 1
                     per_no += 1
 

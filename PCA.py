@@ -4,8 +4,6 @@ import scipy.linalg as s_linalg
 
 
 class pca_class:
-
-
     def give_p(self, d):
         sum = np.sum(d)
         sum_85 = self.quality_percent * sum/100
@@ -38,28 +36,6 @@ class pca_class:
         self.images = self.images - self.mean_face
         self.quality_percent = quality_percent
 
-    def original_data(self, new_coordinates):
-        return self.mean_face + (np.dot(self.new_bases, new_coordinates.T))
-
-
-    def show_eigen_face(self, height, width, min_pix_int, max_pix_int, eig_no):
-        ev = self.new_bases[:, eig_no:eig_no + 1]
-        min_orig = np.min(ev)
-        max_orig = np.max(ev)
-        ev = min_pix_int + (((max_pix_int - min_pix_int)/(max_orig - min_orig)) * ev)
-        ev_re = np.reshape(ev, (height, width))
-        cv2.imshow("Eigen Face " + str(eig_no),  cv2.resize(np.array(ev_re, dtype = np.uint8),(200, 200)))
-        cv2.waitKey()
-
-    def new_cord(self, name, img_height, img_width):
-        img = cv2.imread(name)
-        gray = cv2.resize(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY), (img_height, img_width))
-        img_vec = np.asmatrix(gray).ravel()
-        img_vec = img_vec.T
-        new_mean = ((self.mean_face * len(self.y)) + img_vec)/(len(self.y) + 1)
-        img_vec = img_vec - new_mean
-        return np.dot(self.new_bases.T, img_vec)
-
     def new_cord_for_image(self, image):
         img_vec = np.asmatrix(image).ravel()
         img_vec = img_vec.T
@@ -87,10 +63,3 @@ class pca_class:
         else:
             print("Person", k, ":", min, 'Unknown')
             return 'Unknown'
-
-
-
-
-
-
-
